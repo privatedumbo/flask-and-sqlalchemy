@@ -1,0 +1,6 @@
+# Test's requirements
+# List all packages required to run the tests (used in the CI).
+
+-r requirements.txt
+
+pytest==4.4.1
