@@ -3,7 +3,11 @@ import sys
 
 def main():
     mode = sys.argv[1]
-    if mode == "batch":
+    if mode == "mock-dataset":
+        from src.batch_loader.data import mock_dataset
+        n_rows = int(sys.argv[2])
+        mock_dataset(n_rows)
+    elif mode == "batch":
         from src.batch_loader import main
         main()
     elif mode == "server":

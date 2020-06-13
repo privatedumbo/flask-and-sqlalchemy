@@ -1,7 +1,7 @@
 from src.core.dao import DBManager
 from src.core.models import Base
 
-from flask import Flask, request
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy(model_class=Base)

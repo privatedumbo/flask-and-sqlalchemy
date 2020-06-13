@@ -3,7 +3,7 @@ import logging
 from src.batch_loader.file_handler import LocalFilesHandler
 from src.core.dao import db_manager as db
 from src.core.config import config
-from src.core.models import Temperature
+from src.core.models import User
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -22,8 +22,8 @@ class Migrator:
         logging.info("Starting batch load")
         records = self.fetch_records()
         for i, record in enumerate(records):
-            temperature = self.temperature_from_record(record)
-            self.session.add(temperature)
+            user = self.user_from_record(record)
+            self.session.add(user)
             if self._batch_size_reached(i):
                 self._add_records()
 
@@ -38,17 +38,17 @@ class Migrator:
             record = tuple(line.split(config.get("INPUT_DATA", "DELIMITER")))
             yield record
 
-    def temperature_from_record(self, record: tuple) -> Temperature:
+    def user_from_record(self, record: tuple) -> User:
         """
-        Given a tuple, maps it according to its order and creates a temperature instance to be inserted.
+        Given a tuple, maps it according to its order and creates a User instance to be inserted.
         Args:
             record (tuple): data from a line of the file.
         Returns:
-            Temperature: instance of Temperature with the `record` input.
+            User: instance of User with the `record` input.
         """
-        mapped_record = Temperature.dict_from_tuple(record)
-        temperature = Temperature(**mapped_record)
-        return temperature
+        mapped_record = User.dict_from_tuple(record)
+        user = User(**mapped_record)
+        return user
 
     def _batch_size_reached(self, index: int) -> bool:
         """Defines whether the inserted records should or should not be commited according
