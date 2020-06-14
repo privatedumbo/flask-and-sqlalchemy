@@ -1,0 +1,8 @@
+# Development requirements
+# List all packages required by the team, for development support (won't be installed for runtime)
+
+-r requirements-test.txt  # Include the production and testing requirements.
+
+flake8==3.7.7
+pre-commit==1.14.4
+black==19.3b0
