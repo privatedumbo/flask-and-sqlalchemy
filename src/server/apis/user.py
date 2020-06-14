@@ -54,6 +54,20 @@ class UserListView(Resource):
 
         return user
 
+    @api.doc("Deletes all users in database.")
+    def delete(self):
+        try:
+            deleted_rows = db.session.query(User).delete()
+            db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            raise abort(
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+                {"description": "Internal server error", "detail": str(e)},
+            )
+
+        return {"description": "{} users deleted".format(deleted_rows)}
+
 
 @api.route("/<id>")
 @api.param("id", "User identifier")

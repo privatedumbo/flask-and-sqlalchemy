@@ -58,9 +58,14 @@ class Migrator:
         return index % self.batch_size == 0
 
     def _add_records(self):
-        """Handles record insertion. In case of an SQLAlchemy exception, just logs the error and continues.
+        """
+        Handles record insertion. In case of an SQLAlchemy exception, just logs the error and continues.
         It should log errors into an error's file to handle them properly.
         In case of error, all records in the session are rollbacked.
+
+        After some comparisons, I found out that committing one record at a time was much slower
+        than commiting by batches.
+
         """
         try:
             self.session.commit()
